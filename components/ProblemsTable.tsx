@@ -39,26 +39,26 @@ export default function ProblemsTable({ problems }: ProblemsTableProps) {
     };
 
     return (
-        <div className="w-full mt-8 overflow-hidden rounded-xl border border-white/10 bg-black/20 backdrop-blur-md">
-            <table className="w-full text-left text-sm">
+        <div className="w-full mt-4 md:mt-8 overflow-x-auto rounded-xl border border-white/10 bg-black/20 backdrop-blur-md">
+            <table className="w-full text-left text-xs md:text-sm">
                 <thead>
-                    <tr className="border-b border-white/10 text-white/40 uppercase text-[10px] tracking-wider">
-                        <th className="px-6 py-4 font-medium">Status</th>
-                        <th className="px-6 py-4 font-medium">Title</th>
-                        <th className="px-6 py-4 font-medium">Difficulty</th>
-                        <th className="px-6 py-4 font-medium">Last Practiced</th>
+                    <tr className="border-b border-white/10 text-white/40 uppercase text-[9px] md:text-[10px] tracking-wider">
+                        <th className="px-3 md:px-6 py-3 md:py-4 font-medium hidden md:table-cell">Status</th>
+                        <th className="px-3 md:px-6 py-3 md:py-4 font-medium">Title</th>
+                        <th className="px-3 md:px-6 py-3 md:py-4 font-medium">Difficulty</th>
+                        <th className="px-3 md:px-6 py-3 md:py-4 font-medium hidden sm:table-cell">Last Practiced</th>
                         {/* <th className="px-6 py-4 font-medium text-right">Action</th> */}
                     </tr>
                 </thead>
                 <tbody className="divide-y divide-white/5">
                     {problems.map((problem) => (
                         <tr key={problem.id} className="group hover:bg-white/5 transition-colors">
-                            <td className="px-6 py-4">
+                            <td className="px-3 md:px-6 py-3 md:py-4 hidden md:table-cell">
                                 {getStatusIcon(problem)}
                             </td>
-                            <td className="px-6 py-4">
+                            <td className="px-3 md:px-6 py-3 md:py-4">
                                 <div className="flex items-center gap-2">
-                                    <span className="font-medium text-white/90 group-hover:text-white transition-colors">
+                                    <span className="font-medium text-white/90 group-hover:text-white transition-colors line-clamp-1">
                                         {problem.title}
                                     </span>
                                     {problem.url && (
@@ -66,22 +66,22 @@ export default function ProblemsTable({ problems }: ProblemsTableProps) {
                                             href={problem.url}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="opacity-0 group-hover:opacity-100 transition-opacity text-white/30 hover:text-white"
+                                            className="opacity-0 group-hover:opacity-100 transition-opacity text-white/30 hover:text-white flex-shrink-0"
                                         >
                                             <ExternalLink size={12} />
                                         </a>
                                     )}
                                 </div>
                             </td>
-                            <td className="px-6 py-4">
+                            <td className="px-3 md:px-6 py-3 md:py-4">
                                 <span className={clsx(
-                                    "px-2 py-1 rounded text-[10px] uppercase tracking-wider font-semibold border",
+                                    "px-1.5 md:px-2 py-0.5 md:py-1 rounded text-[9px] md:text-[10px] uppercase tracking-wider font-semibold border",
                                     getDifficultyColor(problem.difficulty)
                                 )}>
                                     {problem.difficulty}
                                 </span>
                             </td>
-                            <td className="px-6 py-4 text-white/50 font-mono text-xs">
+                            <td className="px-3 md:px-6 py-3 md:py-4 text-white/50 font-mono text-[10px] md:text-xs hidden sm:table-cell">
                                 {getLastPracticed(problem)}
                             </td>
                             {/* <td className="px-6 py-4 text-right">
@@ -93,7 +93,7 @@ export default function ProblemsTable({ problems }: ProblemsTableProps) {
                     ))}
                     {problems.length === 0 && (
                         <tr>
-                            <td colSpan={4} className="px-6 py-12 text-center text-white/30 italic">
+                            <td colSpan={4} className="px-3 md:px-6 py-8 md:py-12 text-center text-white/30 italic text-xs md:text-sm">
                                 No problems added yet. Start your journey!
                             </td>
                         </tr>

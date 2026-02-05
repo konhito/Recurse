@@ -84,17 +84,17 @@ export default function ProgressHeatmap({ problems }: ProgressHeatmapProps) {
     };
 
     return (
-        <div className="w-full flex justify-center overflow-x-auto pb-4">
+        <div className="w-full flex justify-center overflow-x-auto pb-2 md:pb-4">
             <div className="flex flex-col gap-2">
-                <h4 className="text-white/60 text-sm font-medium tracking-wide">Activity (Last Year)</h4>
-                <div className="flex gap-1 relative">
+                <h4 className="text-white/60 text-xs md:text-sm font-medium tracking-wide">Activity (Last Year)</h4>
+                <div className="flex gap-0.5 md:gap-1 relative">
                     {weeks.map((week, weekIndex) => (
-                        <div key={weekIndex} className="flex flex-col gap-1">
+                        <div key={weekIndex} className="flex flex-col gap-0.5 md:gap-1">
                             {week.map((day, dayIndex) => (
                                 <div
                                     key={day.date}
                                     className={clsx(
-                                        "w-3 h-3 rounded-[2px] transition-all duration-200 cursor-pointer",
+                                        "w-2 h-2 md:w-3 md:h-3 rounded-[2px] transition-all duration-200 cursor-pointer",
                                         getColor(day.count),
                                         "hover:scale-125 hover:z-10 hover:border hover:border-white/50"
                                     )}
@@ -106,18 +106,18 @@ export default function ProgressHeatmap({ problems }: ProgressHeatmapProps) {
                     ))}
                 </div>
                 {/* Legend / Info */}
-                <div className="flex items-center gap-2 mt-2 text-[10px] text-white/30 justify-end">
+                <div className="flex items-center gap-1.5 md:gap-2 mt-1 md:mt-2 text-[9px] md:text-[10px] text-white/30 justify-end">
                     <span>Less</span>
-                    <div className="w-3 h-3 bg-white/5 rounded-[2px]" />
-                    <div className="w-3 h-3 bg-teal-900/40 rounded-[2px]" />
-                    <div className="w-3 h-3 bg-teal-700/60 rounded-[2px]" />
-                    <div className="w-3 h-3 bg-teal-500 rounded-[2px]" />
-                    <div className="w-3 h-3 bg-teal-300 rounded-[2px]" />
+                    <div className="w-2 h-2 md:w-3 md:h-3 bg-white/5 rounded-[2px]" />
+                    <div className="w-2 h-2 md:w-3 md:h-3 bg-teal-900/40 rounded-[2px]" />
+                    <div className="w-2 h-2 md:w-3 md:h-3 bg-teal-700/60 rounded-[2px]" />
+                    <div className="w-2 h-2 md:w-3 md:h-3 bg-teal-500 rounded-[2px]" />
+                    <div className="w-2 h-2 md:w-3 md:h-3 bg-teal-300 rounded-[2px]" />
                     <span>More</span>
                 </div>
                 {/* Tooltip */}
                 {hoveredDate && (
-                    <div className="absolute top-0 right-0 py-1 px-2 bg-zinc-900 border border-white/10 rounded text-xs text-white z-50 pointer-events-none transform -translate-y-full">
+                    <div className="absolute top-0 right-0 py-1 px-2 bg-zinc-900 border border-white/10 rounded text-[10px] md:text-xs text-white z-50 pointer-events-none transform -translate-y-full">
                         <span className="font-semibold text-teal-400">{hoveredDate.count} submissions</span> on {hoveredDate.date}
                     </div>
                 )}

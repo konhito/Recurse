@@ -22,9 +22,9 @@ function ProblemActions({ problem, revision, onComplete }: { problem: any, revis
                     e.stopPropagation();
                     onComplete();
                 }}
-                className="flex items-center gap-2 px-4 py-2 bg-emerald-500 text-white rounded-full text-sm font-medium hover:bg-emerald-600 transition-colors"
+                className="flex items-center gap-1.5 md:gap-2 px-3 md:px-4 py-1.5 md:py-2 bg-emerald-500 text-white rounded-full text-xs md:text-sm font-medium hover:bg-emerald-600 transition-colors active:scale-95"
             >
-                <CheckCircle2 className="w-4 h-4" /> Mark Done
+                <CheckCircle2 className="w-3.5 h-3.5 md:w-4 md:h-4" /> Mark Done
             </button>
         );
     }
@@ -35,9 +35,9 @@ function ProblemActions({ problem, revision, onComplete }: { problem: any, revis
                 e.stopPropagation();
                 handleStart();
             }}
-            className="flex items-center gap-2 px-4 py-2 bg-zinc-100 text-zinc-900 rounded-full text-sm font-medium hover:bg-white transition-colors"
+            className="flex items-center gap-1.5 md:gap-2 px-3 md:px-4 py-1.5 md:py-2 bg-zinc-100 text-zinc-900 rounded-full text-xs md:text-sm font-medium hover:bg-white transition-colors active:scale-95"
         >
-            Start Review <ArrowRight className="w-4 h-4" />
+            Start Review <ArrowRight className="w-3.5 h-3.5 md:w-4 md:h-4" />
         </button>
     );
 }
@@ -84,10 +84,10 @@ export default function DailyFocus() {
 
     if (dueProblems.length === 0) {
         return (
-            <div className="flex flex-col items-center justify-center p-12 text-center border border-dashed border-zinc-800 rounded-2xl bg-zinc-900/30">
-                <CheckCircle2 className="w-12 h-12 text-emerald-500/50 mb-4" />
-                <h3 className="text-lg font-medium text-zinc-200">All Caught Up</h3>
-                <p className="text-zinc-500 max-w-xs mt-2">
+            <div className="flex flex-col items-center justify-center p-8 md:p-12 text-center border border-dashed border-zinc-800 rounded-2xl bg-zinc-900/30">
+                <CheckCircle2 className="w-10 h-10 md:w-12 md:h-12 text-emerald-500/50 mb-3 md:mb-4" />
+                <h3 className="text-base md:text-lg font-medium text-zinc-200">All Caught Up</h3>
+                <p className="text-xs md:text-sm text-zinc-500 max-w-xs mt-2">
                     You have no revisions due today. Enjoy your peace or add a new problem to learn.
                 </p>
             </div>
@@ -95,23 +95,23 @@ export default function DailyFocus() {
     }
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-4 md:space-y-6">
             <header className="flex items-baseline justify-between">
-                <h2 className="text-2xl font-serif text-white">Today's Focus</h2>
-                <span className="text-sm text-zinc-500 font-mono">
+                <h2 className="text-xl md:text-2xl font-serif text-white">Today's Focus</h2>
+                <span className="text-xs md:text-sm text-zinc-500 font-mono">
                     {dueProblems.length} {dueProblems.length === 1 ? 'task' : 'tasks'}
                 </span>
             </header>
 
-            <div className="grid gap-4">
+            <div className="grid gap-3 md:gap-4">
                 {dueProblems.map(({ problem, revision, status }) => (
                     <div
                         key={problem.id}
-                        className="group relative p-5 bg-zinc-900/50 border border-zinc-800/50 rounded-xl hover:border-zinc-700 transition-all hover:shadow-lg hover:shadow-black/20"
+                        className="group relative p-4 md:p-5 bg-zinc-900/50 border border-zinc-800/50 rounded-xl hover:border-zinc-700 transition-all hover:shadow-lg hover:shadow-black/20"
                     >
-                        <div className="flex justify-between items-start mb-3">
-                            <div className="space-y-1">
-                                <div className="flex items-center gap-2">
+                        <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-3 mb-3">
+                            <div className="space-y-1 flex-1">
+                                <div className="flex items-center gap-2 flex-wrap">
                                     <span className={clsx(
                                         "px-2 py-0.5 text-[10px] uppercase tracking-wider rounded-sm font-medium",
                                         problem.difficulty === 'Easy' && "bg-emerald-950/50 text-emerald-400 border border-emerald-900/50",
@@ -126,21 +126,21 @@ export default function DailyFocus() {
                                         </span>
                                     )}
                                 </div>
-                                <h3 className="text-lg font-medium text-zinc-100 group-hover:text-white transition-colors">
+                                <h3 className="text-base md:text-lg font-medium text-zinc-100 group-hover:text-white transition-colors">
                                     {problem.title}
                                 </h3>
                             </div>
 
-                            <div className="flex items-center gap-3">
+                            <div className="flex items-center gap-3 justify-between md:justify-end">
                                 <div className="flex flex-col items-end text-right">
                                     <span className="text-[10px] text-zinc-500 uppercase tracking-widest">Revision</span>
-                                    <span className="text-xl font-mono text-zinc-300">#{revision.number}</span>
+                                    <span className="text-lg md:text-xl font-mono text-zinc-300">#{revision.number}</span>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="flex items-center justify-between mt-4">
-                            <div className="flex gap-2">
+                        <div className="flex items-center justify-between mt-4 gap-3">
+                            <div className="flex gap-2 flex-wrap">
                                 {problem.tags.slice(0, 3).map((tag: string) => (
                                     <span key={tag} className="text-xs text-zinc-500">#{tag}</span>
                                 ))}
