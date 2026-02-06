@@ -5,6 +5,7 @@ import { X, Loader2, Link as LinkIcon, Plus } from "lucide-react";
 import { parseProblemUrl } from "@/lib/parser";
 import { Difficulty, Problem } from "@/lib/types";
 import { generateRevisions } from "@/lib/scheduler";
+import { startOfDay } from "date-fns";
 import { v4 as uuidv4 } from "uuid";
 
 interface AddProblemProps {
@@ -41,13 +42,16 @@ export default function AddProblem({ onAdd, onClose }: AddProblemProps) {
     const handleFinalSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
+        // Use day boundary for addedAt (start of current day)
+        const addedAt = startOfDay(new Date()).toISOString();
+
         const newProblem: Problem = {
             id: uuidv4(),
             title: title || "Untitled Problem",
             url,
             difficulty,
             tags: [], // Could add tag input later
-            addedAt: new Date().toISOString(),
+            addedAt,
             notes: "",
             revisions: generateRevisions(new Date()),
             confidenceHistory: [],

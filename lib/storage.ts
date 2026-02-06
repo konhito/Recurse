@@ -68,11 +68,21 @@ export function useProblems() {
         }
     };
 
+    const refreshProblems = async () => {
+        try {
+            const data = await fetchProblems();
+            setProblems(data);
+        } catch (e) {
+            console.error("Failed to refresh problems", e);
+        }
+    };
+
     return {
         problems,
         addProblem,
         updateProblem,
         deleteProblem,
+        refreshProblems,
         isLoaded,
     };
 }

@@ -8,7 +8,7 @@ import ProgressHeatmap from "@/components/ProgressHeatmap";
 import ProblemsTable from "@/components/ProblemsTable";
 import StringLines from "@/components/StringLines";
 import { useProblems } from "@/lib/storage";
-import { Plus, Settings, User, RefreshCw } from "lucide-react";
+import { Plus, Settings, User, RefreshCw, CheckCircle2, X } from "lucide-react";
 import { syncLeetCodeAction } from "@/app/sync-action";
 import clsx from "clsx";
 
@@ -18,7 +18,9 @@ export default function Home() {
   const [showVideo, setShowVideo] = useState(false);
   const [isHoveringCredit, setIsHoveringCredit] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const { addProblem, problems } = useProblems();
+  const [isSyncing, setIsSyncing] = useState(false);
+  const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
+  const { addProblem, problems, refreshProblems } = useProblems();
 
   return (
 
@@ -44,19 +46,25 @@ export default function Home() {
           {/* Sync Button */}
           <button
             onClick={async () => {
-              const btn = document.getElementById('sync-btn');
-              if (btn) btn.classList.add('animate-spin');
+              setIsSyncing(true);
               try {
                 await syncLeetCodeAction();
-                // Ideally refresh data here
-                window.location.reload();
-              } catch (e) { console.error(e); }
-              finally { if (btn) btn.classList.remove('animate-spin'); }
+                await refreshProblems();
+                setToast({ message: 'Sync completed successfully!', type: 'success' });
+                setTimeout(() => setToast(null), 3000);
+              } catch (e) {
+                console.error(e);
+                setToast({ message: 'Sync failed. Please try again.', type: 'error' });
+                setTimeout(() => setToast(null), 3000);
+              } finally {
+                setIsSyncing(false);
+              }
             }}
-            className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-white/20 flex items-center justify-center text-white/80 hover:bg-white/10 hover:border-white/40 transition-all cursor-pointer bg-white/5 backdrop-blur-md active:scale-95"
+            disabled={isSyncing}
+            className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-white/20 flex items-center justify-center text-white/80 hover:bg-white/10 hover:border-white/40 transition-all cursor-pointer bg-white/5 backdrop-blur-md active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
             title="Sync LeetCode"
           >
-            <RefreshCw id="sync-btn" size={16} strokeWidth={1.5} className="md:w-[18px] md:h-[18px]" />
+            <RefreshCw size={16} strokeWidth={1.5} className={`md:w-[18px] md:h-[18px] ${isSyncing ? 'animate-spin' : ''}`} />
           </button>
 
           {/* Right Icon: Profile => Secret Video */}
@@ -218,6 +226,21 @@ export default function Home() {
               playsInline
               className="w-full h-full object-contain"
             />
+          </div>
+        </div>
+      )}
+
+      {/* Toast Notification */}
+      {toast && (
+        <div className="fixed top-20 left-1/2 -translate-x-1/2 z-[110] animate-in fade-in slide-in-from-top-4 duration-300">
+          <div className={clsx(
+            "px-6 py-3 rounded-full backdrop-blur-xl border shadow-2xl flex items-center gap-2 text-sm font-medium",
+            toast.type === 'success' && "bg-emerald-500/20 border-emerald-500/30 text-emerald-100",
+            toast.type === 'error' && "bg-rose-500/20 border-rose-500/30 text-rose-100"
+          )}>
+            {toast.type === 'success' && <CheckCircle2 size={16} />}
+            {toast.type === 'error' && <X size={16} />}
+            {toast.message}
           </div>
         </div>
       )}

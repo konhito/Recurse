@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { useProblems } from "@/lib/storage";
 import { getNextRevision, getRevisionStatus } from "@/lib/scheduler";
 import { CheckCircle2, Clock, ArrowRight } from "lucide-react";
+import { startOfDay } from "date-fns";
 import clsx from "clsx";
 
 // Helper component for the action button state
@@ -69,10 +70,12 @@ export default function DailyFocus() {
     }, [problems, isLoaded]);
 
     const handleComplete = async (problem: any, revision: any) => {
-        // Update the specific revision to have completedDate = new Date().toISOString()
+        // Update the specific revision to have completedDate = startOfDay (day-wise, not hour-wise)
+        const completedDate = startOfDay(new Date()).toISOString();
+
         const updatedRevisions = problem.revisions.map((r: any) => {
             if (r.number === revision.number) {
-                return { ...r, completedDate: new Date().toISOString() };
+                return { ...r, completedDate };
             }
             return r;
         });

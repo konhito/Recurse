@@ -1,5 +1,6 @@
 import { Problem, Difficulty } from "@/lib/types";
 import { CheckCircle2, Circle, Clock, ArrowUpRight, ExternalLink } from "lucide-react";
+import { getNextRevision } from "@/lib/scheduler";
 import { clsx } from "clsx";
 
 interface ProblemsTableProps {
@@ -38,6 +39,14 @@ export default function ProblemsTable({ problems }: ProblemsTableProps) {
         return "-";
     };
 
+    const getNextDue = (problem: Problem) => {
+        const nextRev = getNextRevision(problem);
+        if (nextRev) {
+            return new Date(nextRev.scheduledDate).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+        }
+        return "-";
+    };
+
     return (
         <div className="w-full mt-4 md:mt-8 overflow-x-auto rounded-xl border border-white/10 bg-black/20 backdrop-blur-md">
             <table className="w-full text-left text-xs md:text-sm">
@@ -47,7 +56,7 @@ export default function ProblemsTable({ problems }: ProblemsTableProps) {
                         <th className="px-3 md:px-6 py-3 md:py-4 font-medium">Title</th>
                         <th className="px-3 md:px-6 py-3 md:py-4 font-medium">Difficulty</th>
                         <th className="px-3 md:px-6 py-3 md:py-4 font-medium hidden sm:table-cell">Last Practiced</th>
-                        {/* <th className="px-6 py-4 font-medium text-right">Action</th> */}
+                        <th className="px-3 md:px-6 py-3 md:py-4 font-medium hidden sm:table-cell">Next Due</th>
                     </tr>
                 </thead>
                 <tbody className="divide-y divide-white/5">
@@ -84,6 +93,9 @@ export default function ProblemsTable({ problems }: ProblemsTableProps) {
                             <td className="px-3 md:px-6 py-3 md:py-4 text-white/50 font-mono text-[10px] md:text-xs hidden sm:table-cell">
                                 {getLastPracticed(problem)}
                             </td>
+                            <td className="px-3 md:px-6 py-3 md:py-4 text-white/50 font-mono text-[10px] md:text-xs hidden sm:table-cell">
+                                {getNextDue(problem)}
+                            </td>
                             {/* <td className="px-6 py-4 text-right">
                 <button className="text-white/30 hover:text-white transition-colors">
                     <ArrowUpRight size={16} />
@@ -93,7 +105,7 @@ export default function ProblemsTable({ problems }: ProblemsTableProps) {
                     ))}
                     {problems.length === 0 && (
                         <tr>
-                            <td colSpan={4} className="px-3 md:px-6 py-8 md:py-12 text-center text-white/30 italic text-xs md:text-sm">
+                            <td colSpan={5} className="px-3 md:px-6 py-8 md:py-12 text-center text-white/30 italic text-xs md:text-sm">
                                 No problems added yet. Start your journey!
                             </td>
                         </tr>
