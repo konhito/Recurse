@@ -83,7 +83,52 @@ export default function DailyFocus() {
         await updateProblem(problem.id, { revisions: updatedRevisions });
     };
 
-    if (!isLoaded) return <div className="text-zinc-500 text-sm animate-pulse">Syncing...</div>;
+    if (!isLoaded) {
+        return (
+            <div className="space-y-4 md:space-y-6">
+                <header className="flex items-baseline justify-between">
+                    <h2 className="text-xl md:text-2xl font-serif text-white">Today's Focus</h2>
+                    <span className="text-xs md:text-sm text-zinc-500 font-mono">Loading...</span>
+                </header>
+
+                <div className="grid gap-3 md:gap-4">
+                    {[1, 2, 3].map((i) => (
+                        <div
+                            key={i}
+                            className="relative p-4 md:p-5 bg-zinc-900/50 border border-zinc-800/50 rounded-xl overflow-hidden"
+                        >
+                            {/* Shimmer effect */}
+                            <div className="absolute inset-0 -translate-x-full animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent" />
+
+                            <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-3 mb-3">
+                                <div className="space-y-2 flex-1">
+                                    {/* Difficulty badge skeleton */}
+                                    <div className="h-5 w-16 bg-zinc-800/50 rounded animate-pulse" />
+                                    {/* Title skeleton */}
+                                    <div className="h-6 w-3/4 bg-zinc-800/50 rounded animate-pulse" />
+                                </div>
+                                {/* Revision number skeleton */}
+                                <div className="flex flex-col items-end">
+                                    <div className="h-3 w-12 bg-zinc-800/50 rounded animate-pulse mb-1" />
+                                    <div className="h-6 w-8 bg-zinc-800/50 rounded animate-pulse" />
+                                </div>
+                            </div>
+
+                            <div className="flex items-center justify-between mt-4 gap-3">
+                                {/* Tags skeleton */}
+                                <div className="flex gap-2">
+                                    <div className="h-4 w-12 bg-zinc-800/50 rounded animate-pulse" />
+                                    <div className="h-4 w-16 bg-zinc-800/50 rounded animate-pulse" />
+                                </div>
+                                {/* Button skeleton */}
+                                <div className="h-8 w-28 bg-zinc-800/50 rounded-full animate-pulse" />
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        );
+    }
 
     if (dueProblems.length === 0) {
         return (
