@@ -76,7 +76,7 @@ stop procrastinating and lock in before midnight or you're cooked 🔥
         `.trim();
 
         // Send email
-        const data = await resend.emails.send({
+        const { data, error } = await resend.emails.send({
             from: 'Spaced Revision <onboarding@resend.dev>', // Change this to your verified domain
             to: [process.env.USER_EMAIL || 'your-email@example.com'],
             subject: 'phadle ladle 💀',
@@ -84,9 +84,17 @@ stop procrastinating and lock in before midnight or you're cooked 🔥
             text: emailText,
         });
 
+        if (error) {
+            console.error('Resend error:', error);
+            return NextResponse.json(
+                { error: 'Failed to send email', details: error },
+                { status: 500 }
+            );
+        }
+
         return NextResponse.json({
             success: true,
-            emailId: data.id,
+            emailId: data?.id,
             pendingCount: pendingProblems.length
         });
 

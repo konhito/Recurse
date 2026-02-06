@@ -1,10 +1,10 @@
-# Spaced Revision
-
-> Master coding problems through spaced repetition — for LeetCode, TakeUForward, GeeksforGeeks, NeetCode, and more
 
 <div align="center">
-  <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExNjltYWNtYWxqemE0OHRsZXM5c2p2andyYXMyOXF2d203cnB1NTNxNSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/fhAwk4DnqNgw8/giphy.gif" alt="Spaced Revision" width="600">
+  <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExNjltYWNtYWxqemE0OHRsZXM5c2p2andyYXMyOXF2d203cnB1NTNxNSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/fhAwk4DnqNgw8/giphy.gif" alt="Spaced Revision" width="300">
+ <p style="font-size: 24px; font-weight: bold;">Recurse Magic</p>
 </div>
+
+> Master coding problems through spaced repetition — for LeetCode, TakeUForward, GeeksforGeeks, NeetCode, and more
 
 [![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)](https://www.typescriptlang.org/)
