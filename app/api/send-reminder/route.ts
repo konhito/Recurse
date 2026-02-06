@@ -27,9 +27,90 @@ export async function GET() {
             })
             .filter(Boolean);
 
-        // If no pending problems, don't send email
+        // If no pending problems, send motivational quote instead
         if (pendingProblems.length === 0) {
-            return NextResponse.json({ message: 'No pending problems, no email sent' });
+            // Fetch real motivational quote from API
+            let quote = "you're crushing it! 🔥 all caught up, keep going!";
+            let author = "your revision app";
+
+            try {
+                const quoteResponse = await fetch('https://zenquotes.io/api/random');
+                const quoteData = await quoteResponse.json();
+                if (quoteData && quoteData[0]) {
+                    quote = quoteData[0].q;
+                    author = quoteData[0].a;
+                }
+            } catch (error) {
+                console.log('Failed to fetch quote, using fallback');
+            }
+
+            const motivationHtml = `
+                <div style="font-family: system-ui, -apple-system, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+                    <h2 style="color: #10b981; margin-bottom: 20px;">✨ all caught up! ✨</h2>
+                    
+                    <p style="color: #555; line-height: 1.6;">yo,</p>
+                    
+                    <p style="color: #555; line-height: 1.6;">
+                        you finished everything for today! here's some motivation to keep the streak going:
+                    </p>
+                    
+                    <div style="background: #f0fdf4; border-left: 4px solid #10b981; padding: 20px; margin: 20px 0; border-radius: 4px;">
+                        <p style="color: #333; font-size: 18px; font-style: italic; margin: 0; line-height: 1.6;">
+                            "${quote}"
+                        </p>
+                        <p style="color: #666; font-size: 14px; margin-top: 10px; text-align: right;">
+                            — ${author}
+                        </p>
+                    </div>
+                    
+                    <p style="color: #555; line-height: 1.6;">
+                        keep this energy tomorrow too 🔥
+                    </p>
+                    
+                    <p style="color: #888; font-size: 14px; margin-top: 30px;">
+                        - your revision app (proud of you fr)
+                    </p>
+                </div>
+            `;
+
+            const motivationText = `
+✨ all caught up! ✨
+
+yo,
+
+you finished everything for today! here's some motivation to keep the streak going:
+
+"${quote}"
+— ${author}
+
+keep this energy tomorrow too 🔥
+
+- your revision app (proud of you fr)
+            `.trim();
+
+            const { data, error } = await resend.emails.send({
+                from: 'Spaced Revision <onboarding@resend.dev>',
+                to: [process.env.USER_EMAIL || 'your-email@example.com'],
+                subject: '✨ all caught up bestie',
+                html: motivationHtml,
+                text: motivationText,
+            });
+
+            if (error) {
+                console.error('Resend error:', error);
+                return NextResponse.json(
+                    { error: 'Failed to send email', details: error },
+                    { status: 500 }
+                );
+            }
+
+            return NextResponse.json({
+                success: true,
+                type: 'motivation',
+                message: 'Sent motivational email - all caught up!',
+                emailId: data?.id,
+                quote: quote
+            });
         }
 
         // Build email content
